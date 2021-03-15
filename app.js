@@ -10,9 +10,9 @@ app.set('port', process.env.PORT || 3000)
 const postsRoute = require('./routes/post');
 
 
-app.use('/', postsRoute);
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false })) //importante
+app.use(bodyParser.urlencoded({ extended: false })) 
+app.use('/', postsRoute);
 
 //MIDDEELWARES
 app.use('/posts', () => {

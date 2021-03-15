@@ -3,11 +3,6 @@ const router = express.Router();
 const Post = require('../models/Post.js');
 
 
-var bodyParser = require('body-parser')
-var jsonParser = bodyParser.json()
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
-
-
 router.get('/all', async (req, res) =>{
     try{
         const posts = await Post.find();
@@ -26,7 +21,7 @@ router.get('/productos/:id', async (req, res) =>{
     }
 });
 
-router.post('/add',  jsonParser, urlencodedParser, async (req, res) => {
+router.post('/add',  async (req, res) => {
     const onePost = new Post({
         producto: req.body.producto,
         precio: req.body.precio
@@ -49,11 +44,14 @@ router.delete('/productos/:id', async (req, res) =>{
     }   
 });
 
-router.patch('/update/:id', jsonParser, urlencodedParser, async (req, res) =>{
+router.put('/update/:id', async (req, res) =>{
     try{
         const updatePosts = await Post.updateOne(
             { _id: req.params.id }, 
-            { $set: {producto: req.body.producto} }
+            { $set: {
+                producto: req.body.producto,
+                precio: req.body.precio
+            } }
         );
         res.json(updatePosts)
     }catch(err){
